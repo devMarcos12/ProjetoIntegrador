@@ -3,69 +3,66 @@ import os
 def clear():
   os.system('cls')
 
-colors = {
-  'limpa': '\033[m',
-  'azul': '\03330;44',
-  'verde': '\0337;32',
-  'amarelo': '\0337;33',
-  'branco': '\0337;30',
-  'vermelho': '\03331;40'
-}
-
 name = input('Digite o nome do produto: ')
 cod = int(input('Digite o código do Produto: '))
 CustoProduto = float(input('Qual o custo do Produto (CA)? '))
 PercentCF = int(input('Qual o custo Fixo/Administrativo(CF)? '))
-PecentCV = int(input('Qual a Commissão de Vendas (CV)? '))
+PercentCV = int(input('Qual a Commissão de Vendas (CV)? '))
 PercentIV = int(input('Qual o Imposto (IV)? '))
 PercentML = int(input('Qual a Margem de lucro(ML)? '))
-PrecoVenda = CustoProduto / (1-((PercentCF+PecentCV+PercentIV+PercentML)/(100)))
 
-# Calculando a Receita Bruta do Produto
-ReceitaBruta = PrecoVenda - CustoProduto 
 
 # Calculando quantos reais as procentagens estão gerando em cima do Preço de Venda
-CustoFixo = 15 * PrecoVenda / 100
-ComissaoVendas = 5 * PrecoVenda / 100
-Imposto = 12 * PrecoVenda / 100
+CustoFixo = (CustoProduto/100) * PercentCF
+ComissaoVendas = (CustoProduto/100) * PercentCV
+Imposto = (CustoProduto/100) * PercentIV
+MargemLucro = (CustoProduto/100) * PercentML 
 
-
-# Cálculo de Outros Custos
-OutrosCustos = CustoFixo + ComissaoVendas + Imposto 
-
-# Cálculo a Rentabilidade
-rent = ReceitaBruta - OutrosCustos 
+# Cálculo Preço de Venda
+PrecoVenda = CustoProduto / (1-((PercentCF+PercentCV+PercentIV+PercentML)/(100)))
+PercentPV = 100
 
 # Cálculo das Procentagem
-PercentCp = CustoProduto * 100 / PrecoVenda
+PercentCp = PercentPV - PercentCF - PercentCV - PercentIV - PercentML
 
-PercentRb = ReceitaBruta * 100 / PrecoVenda
+# Cálculo Receita Bruta
+ReceitaBruta = PrecoVenda - CustoProduto
+PercentRb = PercentPV - PercentCp
 
-PercentOc = OutrosCustos * 100 / PrecoVenda
+#transformando as porcentagens lidas nos respectivos valores
+Valor_CustoFixo = (PrecoVenda / 100 ) * PercentCF
+Valor_ComisaoVendas = (PrecoVenda / 100) * PercentCV
+Valor_Imposto = (PrecoVenda / 100) * PercentIV
 
-PercentRent = rent * 100 / PrecoVenda
+# Cálculo de Outros Custos
+OutrosCustos = Valor_CustoFixo + Valor_ComisaoVendas + Valor_Imposto
+PercentOutrosCustos = PercentCF + PercentCV + PercentIV
+
+# Cálculo Rentabilidade
+rent = ReceitaBruta - OutrosCustos
+
 
 def exibirTabela():
   print('Descrição           /    Valor       /   %')
-  print(f'Preço de Venda:     / {PrecoVenda}   /  100%')
-  print(f'Custo de Aquisição: / {CustoProduto} /  {PercentCp}%')
-  print(f'Receita Bruta:      / {ReceitaBruta} /  {PercentRb}%')
-  print(f'Custo Fixo:         / {CustoFixo}    /  {PercentCF}%')
-  print(f'Comissão de Venda:  / {ComissaoVendas}    /  {PecentCV}%')
-  print(f'Impostos:           / {Imposto}   /  {PercentIV}%')
-  print(f'Outros Custos:      / {OutrosCustos} /  {PercentOc}%')
-  print(f'Rentabilidade:      / {rent}         /  {PercentRent}% \n\n')
+  print(f'Preço de Venda:     / {PrecoVenda:.2f}   /  {PercentPV}')
+  print(f'Custo de Aquisição: / {CustoProduto:.2f} /  {PercentCp}%')
+  print(f'Receita Bruta:      / {ReceitaBruta:.2f} /  {PercentRb}%')
+  print(f'Custo Fixo:         / {Valor_CustoFixo:.2f}    /  {PercentCF}%')
+  print(f'Comissão de Venda:  / {Valor_ComisaoVendas:.2f}    /  {PercentCV}%')
+  print(f'Impostos:           / {Valor_Imposto:.2f}   /  {PercentIV}%')
+  print(f'Outros Custos:      / {OutrosCustos:.2f} /  {PercentOutrosCustos}%')
+  print(f'Rentabilidade:      / {rent:.2f}         /  {PercentML}% \n\n')
   
 def lucroRent():
-  if PercentRent > 20:
-    print(f'\033[30;44mO lucro do {name} foi Alto!')
-  elif PercentRent <= 20:
+  if MargemLucro > 20:
+    print(f'O lucro do {name} foi Alto!')
+  elif MargemLucro > 10 and MargemLucro <= 20:
     print(f'O lucro do {name} foi Médio!')
-  elif PercentRent <= 10:
-    print(f'\033[7;32mO lucro do {name} foi Baixo!')
-  elif PercentRent == 0:
+  elif MargemLucro > 0 and  MargemLucro <= 10:
+    print(f'O lucro do {name} foi Baixo!')
+  elif MargemLucro == 0:
     print(f'O lucro do {name} foi Equilibrado!')
-  elif PercentRent < 0:
+  else:
     print(f'O lucro do {name} foi Prejuízo!')
     
   
