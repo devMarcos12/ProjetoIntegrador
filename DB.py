@@ -34,6 +34,28 @@ while not done:
       PercentIV = row[6]
       PercentML = row[7]
       
+      CustoFixo = (CustoProduto/100) * PercentCF
+      ComissaoVendas = (CustoProduto/100) * PercentCV
+      Imposto = (CustoProduto/100) * PercentIV
+      MargemLucro = (CustoProduto/100) * PercentML 
+      # Cálculo Preço de Venda
+      PrecoVenda = CustoProduto / (1-((PercentCF+PercentCV+PercentIV+PercentML)/(100)))
+      PercentPV = 100
+      # Cálculo das Procentagem
+      PercentCp = PercentPV - PercentCF - PercentCV - PercentIV - PercentML
+      # Cálculo Receita Bruta
+      ReceitaBruta = PrecoVenda - CustoProduto
+      PercentRb = PercentPV - PercentCp
+      #transformando as porcentagens lidas nos respectivos valores
+      Valor_CustoFixo = (PrecoVenda / 100 ) * PercentCF
+      Valor_ComisaoVendas = (PrecoVenda / 100) * PercentCV
+      Valor_Imposto = (PrecoVenda / 100) * PercentIV
+      # Cálculo de Outros Custos
+      OutrosCustos = Valor_CustoFixo + Valor_ComisaoVendas + Valor_Imposto
+      PercentOutrosCustos = PercentCF + PercentCV + PercentIV
+      # Cálculo Rentabilidade
+      rent = ReceitaBruta - OutrosCustos
+      
   elif option == 3:
     print('Opcao nao implementada')
   elif option == 4:
