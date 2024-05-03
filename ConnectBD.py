@@ -6,9 +6,3 @@ conn = mysql.connector.connect(
   password = '1234',
   database = 'Cadastro'
 )
-
-cursor = conn.cursor()
-
-
-
-
