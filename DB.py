@@ -55,6 +55,28 @@ while not done:
       PercentOutrosCustos = PercentCF + PercentCV + PercentIV
       # Cálculo Rentabilidade
       rent = ReceitaBruta - OutrosCustos
+
+      print('-'*50)
+      print('Descrição           /    Valor       /   %')
+      print(f'A. Preço de Venda:     / {PrecoVenda:.2f}   /  {PercentPV}')
+      print(f'B. Custo de Aquisição: / {CustoProduto:.2f} /  {PercentCp}%')
+      print(f'C. Receita Bruta:      / {ReceitaBruta:.2f} /  {PercentRb}%')
+      print(f'D. Custo Fixo:         / {Valor_CustoFixo:.2f}    /  {PercentCF}%')
+      print(f'E. Comissão de Venda:  / {Valor_ComisaoVendas:.2f}    /  {PercentCV}%')
+      print(f'F. Impostos:           / {Valor_Imposto:.2f}   /  {PercentIV}%')
+      print(f'G. Outros Custos:      / {OutrosCustos:.2f} /  {PercentOutrosCustos}%')
+      print(f'H. Rentabilidade:      / {rent:.2f}         /  {PercentML}% \n')
+      print('-'*50)
+      if MargemLucro > 20:
+        print(f'O lucro do {nameProduct} foi \33[42mAlto!\33[m\n')
+      elif MargemLucro > 10 and MargemLucro <= 20:
+        print(f'O lucro do {nameProduct} foi \33[43mMédio!\33[m\n')
+      elif MargemLucro > 0 and  MargemLucro <= 10:
+        print(f'O lucro do {nameProduct} foi \33[44mBaixo!\33[m\n')
+      elif MargemLucro == 0:
+        print(f'O lucro do {nameProduct} foi \33[45mEquilibrado!\33[m\n')
+      else:
+        print(f'O lucro do {nameProduct} foi \33[41mPrejuízo!\33[m\n')
       
   elif option == 3:
     print('Opcao nao implementada')
