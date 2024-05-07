@@ -3,7 +3,6 @@ from ConnectBD import conn
 cursor = conn.cursor()
 
 # Sub-Programas
-
 def cadastrar():
   pass
  
@@ -68,38 +67,18 @@ def atualizar():
   pass
 
 def delete():
+    #   codigo_valido = False
+    # while not codigo_valido:
+    #     try:
+    #         codigo_produto = int(input('Digite o código do produto: '))
+    #         if codigo_produto > 0:
+    #           codigo_valido = True
+    #         else:
+    #            print('Valor inválido! O código do produto deve ser maior que zero\n')
+    #     except ValueError:
+    #         print('Valor inválido! Digite somente números\n')
+    
+    # cursor.execute(f'SELECT * FROM cadastro.produto WHERE codTenis = {codigo_produto}')
   pass 
 
- 
-# Menu do Programa
-done = False
-while not done:
-  print('1. Cadastrar um Produto')
-  print('2. Atualizar um Produto.')
-  print('3. Deletar um Produto.')
-  print('4. Listar Todos os Produtos.')
-  print('5. Sair.')
-  option = input('> ')
-  
-  if option == '1':
-    print('Opcao nao implementada')
-    cadastrar()    
-    
-  elif option == '2':
-    print('Opcao nao implementada')
-    atualizar()
-    
-  elif option == '3':
-    print('Opcao nao implementada')
-    delete()
-    
-  elif option == '4':
-    print('Opcao nao implementada')
-    listar_Produtos()
-    
-  elif option == '5':
-    print('Saindo do programa...')
-    break
-   
-  else:
-    print('Digite uma opcao válida')
+
