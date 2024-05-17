@@ -64,7 +64,81 @@ def listar_Produtos():
     print ()
  
 def atualizar():
-  pass
+   print()
+   id_produto = 0
+   while True:
+      try:
+         id_produto = int(input("Digite o código do produto que deseja atualizar: "))
+
+         if id_produto > 0:
+            break
+         else:
+            print("Valor inválido! Digite números maiores que zero\n")
+      except ValueError:
+         print("Valor inválido! Digite somente números\n")
+
+   cursor.execute(f"SELECT codTenis FROM cadastro.produto WHERE codTenis = {id_produto} LIMIT 1")
+   retorno = cursor.fetchone() #Tenta recuperar o valor da primeira linha retornada
+
+   if retorno is None:
+      print("Desculpe, não foi encontrado nenhum produto cadastrado com o código informado\n")
+   else:
+      print("Produto Encontrado!")
+      print("Dados do produto:")
+      print()
+      cursor.execute(f"SELECT nome, descricao, custoProduto, custoFixo, comissaoVendas, imposto, margemLucro FROM cadastro.produto WHERE codTenis = {id_produto}")
+      retorno = cursor.fetchall()
+      for row in retorno:
+         print(f"Nome: {row[0]}")
+         print(f"Descrição: {row[1]}")
+         print(f"Custo do Produto: {row[2]}")
+         print(f"Custo Fixo: {row[3]}")
+         print(f"Valor da Comissão: {row[4]}")
+         print(f"Valor do Imposto: {row[5]}")
+         print(f"Margem de Lucro: {row[6]}")
+      print()
+      print("Selecione o campo que deseja atualizar")
+      print()
+      while True:
+         print("1. Nome")
+         print("2. Descrição")
+         print("3. Custo do Produto")
+         print("4. Custo Fixo")
+         print("5. Valor da Comissão")
+         print("6. Valor do Imposto")
+         print("7. Margem de Lucro")
+         print("8. Sair")
+         print()
+
+         opcao = 0
+         while True:
+            try:
+               opcao = int(input("Informe a opção desejada: "))
+
+               if opcao > 0 and opcao <= 8:
+                  break
+               elif opcao <= 0 or opcao > 8:
+                  print("Opcão inválida! Informe somente números de 1 a 8\n")  
+            except ValueError:
+               print("Opçao inválida! Digite somente números\n")
+         print()
+         if opcao == 1:
+            pass
+         if opcao == 2:
+            pass
+         if opcao == 3:
+            pass
+         if opcao == 4:
+            pass
+         if opcao == 5:
+            pass
+         if opcao == 6:
+            pass
+         if opcao == 7:
+           pass
+         if opcao == 8:
+            break
+        
 
 def delete():
     #   codigo_valido = False
