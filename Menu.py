@@ -1,4 +1,4 @@
-from DB import listar_Produtos, delete, atualizar, cadastrar
+from CRUD import listar_Produtos, delete, atualizar, cadastrar
 
 done = False
 while not done:
