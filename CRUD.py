@@ -1,12 +1,15 @@
-from ConnectBD import conn, conn_bd
+from ConnectBD import create_connection, create_cursor, execute_query, fetch_query_results
 
-cursor = conn.cursor()
+conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+cursor = create_cursor(connection=conn)
 
 # Sub-Programas
 def cadastrar():
   pass
  
 def listar_Produtos():
+   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+   cursor = create_cursor(connection=conn)
    cursor.execute(f'SELECT * FROM cadastro.produto')
    result = cursor.fetchall()
    for row in result:
@@ -63,6 +66,8 @@ def listar_Produtos():
       print()
  
 def atualizar():
+   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+   cursor = create_cursor(connection=conn)
    print()
    while True:
       try:
@@ -74,7 +79,7 @@ def atualizar():
             print("Valor inválido! Digite números maiores que zero\n")
       except ValueError:
          print("Valor inválido! Digite somente números\n")
-
+         
    cursor.execute(f"SELECT codTenis FROM cadastro.produto WHERE codTenis = {id_produto} LIMIT 1")
    retorno = cursor.fetchone() #Tenta recuperar o valor da primeira linha retornada
 
@@ -108,6 +113,8 @@ def atualizar():
          print()
 
          while True:
+            conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+            cursor = create_cursor(connection=conn)
             try:
                opcao = int(input("Informe a opção desejada: "))
 
@@ -125,28 +132,24 @@ def atualizar():
             except ValueError:
                print('Apenas letras')
             
-            conexao = conn_bd('localhost', 'root', '1234', 'Cadastro')
-            cursor2 = conexao.cursor()
-            cursor2.execute(f'UPDATE cadastro.produto SET nome = "{newName}" WHERE codTenis = {id_produto}')
-            conexao.commit()
+            cursor.execute(f'UPDATE cadastro.produto SET nome = "{newName}" WHERE codTenis = {id_produto}')
+            conn.commit()
             print('\nNome atualizado com sucesso!\n')
-            cursor2.close()
-            conexao.close()
+            cursor.close()
+            conn.close()
             
          if opcao == 2: # Altera o Descricao
             try:
                newDesc = input('Digite a nova descicao do produto: ')
             except ValueError:
                print('Apenas letras')
-            
-            conexao = conn_bd('localhost', 'root', '1234', 'Cadastro')
-            cursor2 = conexao.cursor()
-            cursor2.execute(f'UPDATE cadastro.produto SET descricao = "{newDesc}" WHERE codTenis = {id_produto}')
-            conexao.commit()
+                    
+            cursor.execute(f'UPDATE cadastro.produto SET descricao = "{newDesc}" WHERE codTenis = {id_produto}')
+            conn.commit()
             print('\nDescricao atualizado com sucesso!\n')
             # print(cursor.rowcount, ' registros atualizados')
-            cursor2.close()
-            conexao.close()
+            cursor.close()
+            conn.close()
          if opcao == 3:
             # Obtendo o novo valor do Custo do Produto
             try:
