@@ -5,7 +5,72 @@ cursor = create_cursor(connection=conn)
 
 # Sub-Programas
 def cadastrar():
-  pass
+
+   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+   cursor = create_cursor(connection=conn)
+
+   print()
+
+   def verificar_numero(entrada):
+       try:
+           float(entrada)
+           return True
+       except ValueError:
+           return False
+
+   def verificar_positivo(entrada):
+       return entrada >= 0
+   
+   nomeTenis = input("Digite o nome do Tênis: ")
+   while not nomeTenis.strip():
+       print("Por favor, insira um nome válido para o Tênis.")
+       nomeTenis = input("Digite o nome do Tênis: ")
+
+   # Solicitar e verificar a descrição
+   descricao = input("Digite a descrição: ")
+   while not descricao.strip(): 
+       print("Por favor, insira uma descrição válida.")
+       descricao = input("Digite a descrição: ")
+
+   custoProduto = input("Digite o custo do produto: ")
+   while not (verificar_numero(custoProduto) and verificar_positivo(float(custoProduto))):
+       print("Por favor, insira um valor numérico positivo para o custo do produto.")
+       custoProduto = input("Digite o custo do produto: ")
+
+   custoFixo = input("Digite o custo fixo: ")
+   while not (verificar_numero(custoFixo) and verificar_positivo(float(custoFixo))):
+       print("Por favor, insira um valor numérico positivo para o custo fixo.")
+       custoFixo = input("Digite o custo fixo: ")
+
+   # Solicitar e verificar a comissão de vendas
+   comissaoVendas = input("Digite a comissão de vendas: ")
+   while not (verificar_numero(comissaoVendas) and verificar_positivo(float(comissaoVendas))):
+       print("Por favor, insira um valor numérico positivo para a comissão de vendas.")
+       comissaoVendas = input("Digite a comissão de vendas: ")
+
+   # Solicitar e verificar o imposto
+   imposto = input("Digite o imposto: ")
+   while not (verificar_numero(imposto) and verificar_positivo(float(imposto))):
+       print("Por favor, insira um valor numérico positivo para o imposto.")
+       imposto = input("Digite o imposto: ")
+
+   # Solicitar e verificar a margem de lucro
+   margemLucro = input("Digite a margem de lucro: ")
+   while not (verificar_numero(margemLucro) and verificar_positivo(float(margemLucro))):
+       print("Por favor, insira um valor numérico positivo para a margem de lucro.")
+       margemLucro = input("Digite a margem de lucro: ")
+
+   sql = "INSERT INTO cadastro.produto (nome, descricao, custoProduto, custoFixo, comissaoVendas, imposto, margemLucro) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+   val = (nomeTenis, descricao, custoProduto, custoFixo, comissaoVendas, imposto, margemLucro)
+   cursor.execute(sql, val)
+   
+   conn.commit()
+   print()
+   print("DADO INSERIDO COM SUCESSO!")
+   print()
+   cursor.close()
+   conn.close()
+      
  
 def listar_Produtos():
    conn = create_connection('localhost', 'root', '1234', 'Cadastro')
