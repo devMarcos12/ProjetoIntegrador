@@ -310,9 +310,36 @@ def atualizar():
             conn.close()
          if opcao == 8:
             break
-        
+
+def excluir_tenis(conn, codTenis):
+    
+   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+   cursor = create_cursor(connection=conn)
+    
+   cursor = conn.cursor()
+   query = "DELETE FROM tenis WHERE codTenis = %s"
+   cursor.execute(query, (codTenis,))
+   conn.commit()
+   print(f"Tênis com código {codTenis} foi excluído.")
+   cursor.close()
 
 def delete():
+
+   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
+   cursor = create_cursor(connection=conn)
+   
+   while True:
+      try:
+         codTenis = int(input("Digite o código do tênis a ser excluído: "))
+         if codTenis > 0:
+            excluir_tenis(conn, codTenis)
+            break
+         else:
+            print("Por favor, digite um número natural maior que zero.")
+      except ValueError:
+            print("Entrada inválida. Por favor, digite um número natural maior que zero.")     
+      conn.close()
+
     #   codigo_valido = False
     # while not codigo_valido:
     #     try:
@@ -325,6 +352,3 @@ def delete():
     #         print('Valor inválido! Digite somente números\n')
     
     # cursor.execute(f'SELECT * FROM cadastro.produto WHERE codTenis = {codigo_produto}')
-  pass 
-
-
