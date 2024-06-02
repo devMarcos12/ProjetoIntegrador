@@ -19,7 +19,7 @@ while not done:
     delete()
     
   elif option == '4':
-    listar_Produtos() # Funcao implementada
+    listar_Produtos()
     
   elif option == '5':
     print('Saindo do programa...')
