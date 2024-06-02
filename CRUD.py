@@ -1,8 +1,5 @@
 from ConnectBD import create_connection, create_cursor, execute_query, fetch_query_results
 
-conn = create_connection('localhost', 'root', '1234', 'Cadastro')
-cursor = create_cursor(connection=conn)
-
 # Sub-Programas
 def cadastrar():
 
@@ -312,22 +309,18 @@ def atualizar():
             break
 
 def excluir_tenis(conn, codTenis):
-    
-   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
    cursor = create_cursor(connection=conn)
     
    cursor = conn.cursor()
-   query = "DELETE FROM tenis WHERE codTenis = %s"
+   query = "DELETE FROM cadastro.produto WHERE codTenis = %s"
    cursor.execute(query, (codTenis,))
    conn.commit()
-   print(f"Tênis com código {codTenis} foi excluído.")
+   print(f"Tênis com código {codTenis} foi excluído.\n")
    cursor.close()
 
 def delete():
-
    conn = create_connection('localhost', 'root', '1234', 'Cadastro')
-   cursor = create_cursor(connection=conn)
-   
+
    while True:
       try:
          codTenis = int(input("Digite o código do tênis a ser excluído: "))
