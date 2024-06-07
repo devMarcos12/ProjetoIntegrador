@@ -11,9 +11,7 @@ def create_connection(host, user, password, db):
             password=password,
             database=db
         )
-        if conn.is_connected():
-          print("Conectado ao MySQL")
-        else:
+        if not conn.is_connected():
           print('Falha ao conectar ao MySQL')
     except Error as e:
         print(f"Erro ao conectar ao MySQL: {e}")
@@ -24,7 +22,6 @@ def create_cursor(connection):
     cursor = None
     try:
         cursor = connection.cursor()
-        print("Cursor criado com sucesso")
     except Error as e:
         print(f"Erro ao criar o cursor: {e}")
     return cursor

@@ -1,3 +1,5 @@
+import mysql.connector
+from mysql.connector import Error
 from ConnectBD import create_connection, create_cursor, execute_query, fetch_query_results
 
 conn = create_connection('localhost', 'root', '1234', 'Cadastro')
@@ -219,7 +221,7 @@ def atualizar():
             # Obtendo o novo valor do Custo do Produto
             try:
                while True:
-                  newPercentCP = float(input('Qual o novo custo do produto? '))
+                  newPercentCP = float(input('Qual o novo custo do produto: '))
                   if newPercentCP <= 0:
                      print('Só aceitamos números positivos.')
                   else:
@@ -311,44 +313,37 @@ def atualizar():
          if opcao == 8:
             break
 
-def excluir_tenis(conn, codTenis):
-    
-   conn = create_connection('localhost', 'root', '1234', 'Cadastro')
-   cursor = create_cursor(connection=conn)
-    
-   cursor = conn.cursor()
-   query = "DELETE FROM tenis WHERE codTenis = %s"
-   cursor.execute(query, (codTenis,))
-   conn.commit()
-   print(f"Tênis com código {codTenis} foi excluído.")
-   cursor.close()
+def excluir_tenis(conn, cursor, codTenis):
+   try:
+      query = "DELETE FROM produto WHERE codTenis = %s"
+      cursor.execute(query, (codTenis,))
+      conn.commit()
+      print(f"Tênis {codTenis} excluído com sucesso!")
+      print()
+   except Error as erro:
+      print(f"Erro ao excluir produto: {erro}")
 
 def delete():
-
    conn = create_connection('localhost', 'root', '1234', 'Cadastro')
    cursor = create_cursor(connection=conn)
+   print()
    
    while True:
       try:
          codTenis = int(input("Digite o código do tênis a ser excluído: "))
          if codTenis > 0:
-            excluir_tenis(conn, codTenis)
             break
          else:
-            print("Por favor, digite um número natural maior que zero.")
+            print("Por favor, digite um número natural maior que zero.\n")
       except ValueError:
-            print("Entrada inválida. Por favor, digite um número natural maior que zero.")     
-      conn.close()
+            print("Entrada inválida. Por favor, digite um número natural maior que zero.\n")
+   
+   cursor.execute(f"SELECT codTenis FROM cadastro.produto WHERE codTenis = {codTenis} LIMIT 1")
+   retorno = cursor.fetchone() #Tenta recuperar o valor da primeira linha retornada
 
-    #   codigo_valido = False
-    # while not codigo_valido:
-    #     try:
-    #         codigo_produto = int(input('Digite o código do produto: '))
-    #         if codigo_produto > 0:
-    #           codigo_valido = True
-    #         else:
-    #            print('Valor inválido! O código do produto deve ser maior que zero\n')
-    #     except ValueError:
-    #         print('Valor inválido! Digite somente números\n')
-    
-    # cursor.execute(f'SELECT * FROM cadastro.produto WHERE codTenis = {codigo_produto}')
+   if retorno is None:
+      print("Desculpe, não foi encontrado nenhum produto cadastrado com o código informado\n")
+   else:
+      excluir_tenis(conn, cursor, codTenis)
+
+   conn.close()
