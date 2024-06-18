@@ -338,12 +338,19 @@ def delete():
       except ValueError:
             print("Entrada inválida. Por favor, digite um número natural maior que zero.\n")
    
+   
+   
    cursor.execute(f"SELECT codTenis FROM cadastro.produto WHERE codTenis = {codTenis} LIMIT 1")
    retorno = cursor.fetchone() #Tenta recuperar o valor da primeira linha retornada
 
    if retorno is None:
       print("Desculpe, não foi encontrado nenhum produto cadastrado com o código informado\n")
    else:
-      excluir_tenis(conn, cursor, codTenis)
-
-   conn.close()
+      choose  = input('Deseja mesmo Excluir o tenis? [S ou N]: ').upper()
+      if choose == 'S':
+         excluir_tenis(conn, cursor, codTenis)
+         conn.close()
+      elif not ['n', 'N']:
+         print('O tenis não foi excluido.')
+      else:
+         print('Digite uma opcao válida')
